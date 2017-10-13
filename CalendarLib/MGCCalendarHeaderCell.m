@@ -29,8 +29,9 @@
     if (self) {        
         self.selectedDayBackgroundColor = [UIColor darkGrayColor];
         self.selectedDayTextColor = [UIColor whiteColor];
-        self.todayColor = [UIColor redColor];
         self.weekendColor = [UIColor grayColor];
+        
+        self.todayColor = [UIColor redColor];
     }
     return self;
 }
@@ -80,8 +81,8 @@
     }
     
     if (self.isToday) {
-        self.dayNumberLabel.textColor = self.todayColor;
-        self.dayNameLabel.textColor = self.todayColor;
+        self.dayNumberLabel.textColor = (_brandingTodayColor) ? _brandingTodayColor : self.todayColor;
+        self.dayNameLabel.textColor = (_brandingTodayColor) ? _brandingTodayColor : self.todayColor;
     }
     if (self.isWeekend && !self.isToday) {
         self.dayNumberLabel.textColor = self.weekendColor;

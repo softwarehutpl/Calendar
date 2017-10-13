@@ -190,6 +190,7 @@ static CGFloat kItemHeight = 60;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     MGCCalendarHeaderCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCellIdentifier forIndexPath:indexPath];
+    cell.brandingTodayColor = _dayPlannerView.dayHeaderCellBrandingColor;
     
     switch (indexPath.section) {
         case PreviousWeekSection://left section
