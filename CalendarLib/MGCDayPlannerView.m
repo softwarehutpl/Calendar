@@ -1666,10 +1666,10 @@ static const CGFloat kMaxHourSlotHeight = 150.;
 		[self addSubview:self.allDayEventsView];
 	}
 	
-    self.timedEventsView.frame = CGRectMake(self.timeColumnWidth, timedEventViewTop, timedEventsViewWidth, timedEventsViewHeight);
-    if (!self.timedEventsView.superview) {
-        [self addSubview:self.timedEventsView];
-    }
+//    self.timedEventsView.frame = CGRectMake(self.timeColumnWidth, timedEventViewTop, timedEventsViewWidth, timedEventsViewHeight);
+//    if (!self.timedEventsView.superview) {
+//        [self addSubview:self.timedEventsView];
+//    }
 
 	self.timeScrollView.contentSize = CGSizeMake(self.bounds.size.width, self.dayColumnSize.height);
 	self.timeRowsView.frame = CGRectMake(0, 0, self.timeScrollView.contentSize.width, self.timeScrollView.contentSize.height);
@@ -1690,10 +1690,10 @@ static const CGFloat kMaxHourSlotHeight = 150.;
     }
 
     self.dayColumnsView.userInteractionEnabled = NO;
-//	self.timedEventsView.frame = CGRectMake(self.timeColumnWidth, timedEventViewTop, timedEventsViewWidth, timedEventsViewHeight);
-//	if (!self.timedEventsView.superview) {
-//		[self addSubview:self.timedEventsView];
-//	}
+    self.timedEventsView.frame = CGRectMake(self.timeColumnWidth, timedEventViewTop, timedEventsViewWidth, timedEventsViewHeight);
+    if (!self.timedEventsView.superview) {
+        [self addSubview:self.timedEventsView];
+    }
 
     // make sure collection views are synchronized
     self.dayColumnsView.contentOffset = CGPointMake(self.timedEventsView.contentOffset.x, 0);
