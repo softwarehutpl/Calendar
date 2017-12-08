@@ -108,6 +108,9 @@ static const CGFloat kMaxHourSlotHeight = 150.;
 @property (nonatomic, readonly) UIScrollView *timeScrollView;
 @property (nonatomic, readonly) MGCTimeRowsView *timeRowsView;
 
+// refresh control
+@property (nonatomic) UIRefreshControl *refreshControl;
+
 // collection view layouts
 @property (nonatomic, readonly) MGCTimedEventsViewLayout *timedEventsViewLayout;
 @property (nonatomic, readonly) MGCAllDayEventsViewLayout *allDayEventsViewLayout;
@@ -696,6 +699,14 @@ static const CGFloat kMaxHourSlotHeight = 150.;
 	return [[self collectionViewCellForEventOfType:type atIndexPath:indexPath] eventView];
 }
 
+-(void)stopRefreshing
+{
+    if (self.refreshControl.isRefreshing) {
+        [self.refreshControl endRefreshing];
+        [self scrollViewWillStartScrolling:self.timedEventsView direction:ScrollDirectionUnknown];
+    }
+}
+
 #pragma mark - Navigation
 
 // public
@@ -861,6 +872,8 @@ static const CGFloat kMaxHourSlotHeight = 150.;
 		_timedEventsView.allowsSelection = NO;
 		_timedEventsView.directionalLockEnabled = YES;
 		
+        [self setupRefreshControl:_timedEventsView];
+        
 		[_timedEventsView registerClass:MGCEventCell.class forCellWithReuseIdentifier:EventCellReuseIdentifier];
         [_timedEventsView registerClass:UICollectionReusableView.class forSupplementaryViewOfKind:DimmingViewKind withReuseIdentifier:DimmingViewReuseIdentifier];
 		UILongPressGestureRecognizer *longPress = [UILongPressGestureRecognizer new];
@@ -876,6 +889,25 @@ static const CGFloat kMaxHourSlotHeight = 150.;
 		[_timedEventsView addGestureRecognizer:pinch];
 	}
 	return _timedEventsView;
+}
+
+- (void)setupRefreshControl:(UICollectionView *)collectionView
+{
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    if (@available(iOS 10, *)) {
+        collectionView.refreshControl = self.refreshControl;
+    } else {
+        [collectionView addSubview:self.refreshControl];
+    }
+    [self.refreshControl addTarget:self action:@selector(pulledToRefresh) forControlEvents:UIControlEventValueChanged];
+    [self.refreshControl layoutIfNeeded];
+}
+
+- (void)pulledToRefresh
+{
+    if ([self.delegate respondsToSelector:@selector(dayPlannerView:didPullToRefresh:)]) {
+        [self.delegate dayPlannerView:self didPullToRefresh:self.firstVisibleDate];
+    }
 }
 
 - (UICollectionView*)allDayEventsView
@@ -2318,6 +2350,8 @@ static const CGFloat kMaxHourSlotHeight = 150.;
 		[self recenterIfNeeded];
 	}
 	
+    [self updateRefreshControlBounds:scrollview];
+    
 	[self synchronizeScrolling];
 	
 	[self updateVisibleDaysRange];
@@ -2326,6 +2360,14 @@ static const CGFloat kMaxHourSlotHeight = 150.;
 		MGCDayPlannerScrollType type = self.scrollDirection == ScrollDirectionHorizontal ? MGCDayPlannerScrollDate : MGCDayPlannerScrollTime;
 		[self.delegate dayPlannerView:self didScroll:type];
 	}
+}
+
+- (void)updateRefreshControlBounds:(UIScrollView*)scrollview
+{
+    self.refreshControl.bounds = CGRectMake(- scrollview.contentOffset.x + self.timeColumnWidth / 2,
+                                            0,
+                                            self.refreshControl.bounds.size.width,
+                                            self.refreshControl.bounds.size.height);
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView*)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint*)targetContentOffset
