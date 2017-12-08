@@ -265,6 +265,7 @@ typedef NS_ENUM(NSUInteger, MGCDayPlannerCoveringType) {
  */
 @property(nonatomic, getter=isPagingEnabled) BOOL pagingEnabled;
 
+- (void)stopRefreshing;
 /*!
 	@abstract	Scrolls the view until a certain date is visible.
 	@param		date		The date to scroll into view. It will be the first visible date on the left of the view.
@@ -647,6 +648,12 @@ typedef NS_ENUM(NSUInteger, MGCDayPlannerCoveringType) {
 	@param		view		The day planner view object notifying about the display change.
  */
 - (void)dayPlannerViewDidZoom:(MGCDayPlannerView*)view;
+
+/*!
+ @abstract    Tells the delegate that the day planner view was pulled to refresh.
+ @param        view        The day planner view object notifying about the display change.
+ */
+- (void)dayPlannerView:(MGCDayPlannerView*)view didPullToRefresh:(NSDate*)date;
 
 /*!
 	@group Managing the selection of events
