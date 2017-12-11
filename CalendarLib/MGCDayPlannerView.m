@@ -916,6 +916,13 @@ static const CGFloat kMaxHourSlotHeight = 150.;
     if (!_refreshControlEnabled) {
         [self removeRefreshControl:collectionView];
     } else {
+        [self addRefreshControl:collectionView];
+    }
+}
+
+- (void)addRefreshControl:(UICollectionView *)collectionView
+{
+    if (_refreshControl == nil) {
         _refreshControl = [[UIRefreshControl alloc] init];
         if (@available(iOS 10, *)) {
             collectionView.refreshControl = _refreshControl;
