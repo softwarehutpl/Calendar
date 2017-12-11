@@ -196,7 +196,8 @@ static const CGFloat kMaxHourSlotHeight = 150.;
 	_canMoveEvents = YES;
 	_allowsSelection = YES;
     _eventCoveringType = TimedEventCoveringTypeClassic;
-	
+	_refreshControlEnabled = YES;
+    
 	_reuseQueue = [[MGCReusableObjectQueue alloc] init];
 	_loadingDays = [NSMutableOrderedSet orderedSetWithCapacity:14];
 	
@@ -320,6 +321,16 @@ static const CGFloat kMaxHourSlotHeight = 150.;
             [self setupSubviews];
         }];
 	}
+}
+
+//public
+- (void)setRefreshControlEnabled:(BOOL)refreshControlEnabled
+{
+    if (_refreshControlEnabled != refreshControlEnabled) {
+        _refreshControlEnabled = refreshControlEnabled;
+        
+        [self setupRefreshControl:_timedEventsView];
+    }
 }
 
 // public
@@ -891,16 +902,41 @@ static const CGFloat kMaxHourSlotHeight = 150.;
 	return _timedEventsView;
 }
 
+- (void)setRefreshControlBrandingColor:(UIColor *)refreshControlBrandingColor
+{
+    if (_refreshControlBrandingColor != refreshControlBrandingColor && _refreshControl != nil) {
+        _refreshControlBrandingColor = refreshControlBrandingColor;
+        
+        _refreshControl.tintColor = _refreshControlBrandingColor;
+    }
+}
+
 - (void)setupRefreshControl:(UICollectionView *)collectionView
 {
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    if (@available(iOS 10, *)) {
-        collectionView.refreshControl = self.refreshControl;
+    if (!_refreshControlEnabled) {
+        [self removeRefreshControl:collectionView];
     } else {
-        [collectionView addSubview:self.refreshControl];
+        _refreshControl = [[UIRefreshControl alloc] init];
+        if (@available(iOS 10, *)) {
+            collectionView.refreshControl = _refreshControl;
+        } else {
+            [collectionView addSubview:_refreshControl];
+        }
+        [_refreshControl addTarget:self action:@selector(pulledToRefresh) forControlEvents:UIControlEventValueChanged];
+        [_refreshControl layoutIfNeeded];
     }
-    [self.refreshControl addTarget:self action:@selector(pulledToRefresh) forControlEvents:UIControlEventValueChanged];
-    [self.refreshControl layoutIfNeeded];
+}
+
+- (void)removeRefreshControl:(UICollectionView *)collectionView
+{
+    if (_refreshControl != nil) {
+        if (@available(iOS 10, *)) {
+            collectionView.refreshControl = nil;
+        } else {
+            [_refreshControl removeFromSuperview];
+        }
+        _refreshControl = nil;
+    }
 }
 
 - (void)pulledToRefresh
