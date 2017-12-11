@@ -265,6 +265,10 @@ typedef NS_ENUM(NSUInteger, MGCDayPlannerCoveringType) {
  */
 @property(nonatomic, getter=isPagingEnabled) BOOL pagingEnabled;
 
+@property (nonatomic) UIColor *refreshControlBrandingColor;
+
+@property (nonatomic) BOOL refreshControlEnabled;
+
 - (void)stopRefreshing;
 /*!
 	@abstract	Scrolls the view until a certain date is visible.
