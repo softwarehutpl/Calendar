@@ -65,7 +65,7 @@ typedef NS_ENUM(NSInteger, HeaderSection){
             
             //setup a calendar to do the dates calculations
             self.calendar = [NSCalendar currentCalendar];
-            [self.calendar setLocale:[NSLocale currentLocale]]; //use the current locale to fit the user region
+            [self.calendar setLocale:[NSLocale localeWithLocaleIdentifier: @"en_US_POSIX"]];
             self.selectedDate = [self.calendar startOfDayForDate:[NSDate date]];
             self.selectedDateIndex = [self.calendar component:NSCalendarUnitWeekday fromDate:self.selectedDate] -1; //-1 as 1 is the first day of the week, but we are dealing with arrays starting on 0
             
