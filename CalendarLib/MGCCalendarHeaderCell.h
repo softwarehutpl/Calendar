@@ -10,6 +10,8 @@
 @interface MGCCalendarHeaderCell : UICollectionViewCell
 
 @property (nonatomic) UIColor *brandingTodayColor;
+@property (nonatomic) UIColor *workDaysColor;
+@property (nonatomic) UIColor *weekendDaysColor;
 @property (nonatomic, strong) IBOutlet UILabel *dayNumberLabel;
 @property (nonatomic, strong) IBOutlet UILabel *dayNameLabel;
 @property (nonatomic, strong) NSDate *date;

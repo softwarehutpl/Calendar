@@ -75,8 +75,13 @@ typedef NS_ENUM(NSUInteger, MGCDayPlannerCoveringType) {
  */
 @interface MGCDayPlannerView : UIView
     
+    @property (nonatomic) UIColor *dayHeaderBackgroundColor;
     
     @property (nonatomic) UIColor *dayHeaderCellBrandingColor;
+
+    @property (nonatomic) UIColor *dayHeaderCellWorkDayBrandingColor;
+
+    @property (nonatomic) UIColor *dayHeaderCellWeekendDayBrandingColor;
     
     /*!
      @group Configuring a day planner view

@@ -52,7 +52,7 @@ typedef NS_ENUM(NSInteger, HeaderSection){
         if (self) {
             
             self.dayPlannerView = dayPlannerView;
-            self.headerBackgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0];;
+            self.headerBackgroundColor = self.dayPlannerView.dayHeaderBackgroundColor;
             
             //setup the flow layout
             self.flowLayout = (UICollectionViewFlowLayout*)layout;
@@ -85,7 +85,7 @@ typedef NS_ENUM(NSInteger, HeaderSection){
             if (dayPlannerView.todayDateFont != nil) {
                 self.detailsLabel.font = dayPlannerView.todayDateFont;
             }
-            self.detailsLabel.textColor = [UIColor darkGrayColor];
+            self.detailsLabel.textColor = dayPlannerView.dayHeaderCellWorkDayBrandingColor;
             self.detailsLabel.textAlignment = NSTextAlignmentCenter;
             self.detailsDateFormater = [[NSDateFormatter alloc] init];
             [self.detailsDateFormater setDateStyle:NSDateFormatterFullStyle];
@@ -194,6 +194,8 @@ typedef NS_ENUM(NSInteger, HeaderSection){
     
     MGCCalendarHeaderCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCellIdentifier forIndexPath:indexPath];
     cell.brandingTodayColor = _dayPlannerView.dayHeaderCellBrandingColor;
+    cell.workDaysColor = _dayPlannerView.dayHeaderCellWorkDayBrandingColor;
+    cell.weekendDaysColor = _dayPlannerView.dayHeaderCellWeekendDayBrandingColor;
     if (_dayPlannerView.dayHeaderCellWeekDayFont != nil) {
         cell.dayNameLabel.font = _dayPlannerView.dayHeaderCellWeekDayFont;
     }

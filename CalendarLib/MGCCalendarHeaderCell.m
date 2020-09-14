@@ -70,23 +70,27 @@
     [super layoutSubviews];
     
     if (self.isSelected) {
-        self.dayNumberLabel.backgroundColor = self.selectedDayBackgroundColor;
+        self.dayNumberLabel.backgroundColor = self.brandingTodayColor;
         self.dayNumberLabel.layer.masksToBounds = YES;
         self.dayNumberLabel.layer.cornerRadius = 15.0;
-        self.dayNumberLabel.textColor = self.selectedDayTextColor;
+        self.dayNumberLabel.textColor = self.workDaysColor;
+        self.dayNameLabel.textColor = (_workDaysColor) ? _workDaysColor : [UIColor whiteColor];
     }
     else {
+        self.dayNameLabel.textColor = (_workDaysColor) ? _workDaysColor : [UIColor whiteColor];
+        self.dayNumberLabel.textColor = (_workDaysColor) ? _workDaysColor : [UIColor whiteColor];
         self.dayNumberLabel.backgroundColor = [UIColor clearColor];
-        self.dayNumberLabel.textColor = self.selectedDayBackgroundColor;
     }
     
     if (self.isToday) {
-        self.dayNumberLabel.textColor = (_brandingTodayColor) ? _brandingTodayColor : self.todayColor;
+        if (!self.isSelected) {
+            self.dayNumberLabel.textColor = (_brandingTodayColor) ? _brandingTodayColor : self.todayColor;
+        }
         self.dayNameLabel.textColor = (_brandingTodayColor) ? _brandingTodayColor : self.todayColor;
     }
     if (self.isWeekend && !self.isToday) {
-        self.dayNumberLabel.textColor = self.weekendColor;
-        self.dayNameLabel.textColor = self.weekendColor;
+        self.dayNumberLabel.textColor = (_weekendDaysColor) ? _weekendDaysColor : self.weekendColor;
+        self.dayNameLabel.textColor = (_weekendDaysColor) ? _weekendDaysColor : self.weekendColor;
     }
 }
 
