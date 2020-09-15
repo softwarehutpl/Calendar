@@ -1764,6 +1764,8 @@ static const CGFloat kMaxHourSlotHeight = 150.;
             [self addSubview:self.allDayEventsView];
         }
         
+        self.timedEventsView.contentInset = self.contentInsets;
+        
         //    self.timedEventsView.frame = CGRectMake(self.timeColumnWidth, timedEventViewTop, timedEventsViewWidth, timedEventsViewHeight);
         //    if (!self.timedEventsView.superview) {
         //        [self addSubview:self.timedEventsView];
