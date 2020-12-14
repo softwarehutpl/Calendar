@@ -1055,9 +1055,9 @@ static const CGFloat kMaxHourSlotHeight = 150.;
     {
         if (!_allDayEventsBackgroundView) {
             _allDayEventsBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-            _allDayEventsBackgroundView.backgroundColor = [UIColor colorWithRed:.8 green:.8 blue:.83 alpha:1.];
+            _allDayEventsBackgroundView.backgroundColor = [UIColor clearColor];
             _allDayEventsBackgroundView.clipsToBounds = YES;
-            _allDayEventsBackgroundView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+            _allDayEventsBackgroundView.layer.borderColor = [UIColor clearColor].CGColor;
             _allDayEventsBackgroundView.layer.borderWidth = 1;
         }
         return _allDayEventsBackgroundView;
